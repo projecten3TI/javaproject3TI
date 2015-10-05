@@ -82,10 +82,6 @@ input, button {
   background: linear-gradient(top bottom, rgba(146, 135, 187, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%);
   -webkit-transition: opacity 0.1s, 
   
-  
-  
-  
-  
   -webkit-transform 0.3s cubic-bezier(0.17, -0.65, 0.665, 1.25);
   transition: opacity 0.1s, transform 0.3s cubic-bezier(0.17, -0.65, 0.665, 1.25);
   -webkit-transform: scale(1);
