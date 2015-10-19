@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scoretracker.service;
+package scoretracker.beans.service;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import scoretracker.beans.entity.Type;
+import scoretracker.beans.persistence.User;
 
 /**
  *
  * @author Jamie
  */
 @Stateless
-public class TypeFacade extends AbstractFacade<Type> {
+public class UserFacade extends AbstractFacade<User> {
     @PersistenceContext(unitName = "ScoreTrackerPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class TypeFacade extends AbstractFacade<Type> {
         return em;
     }
 
-    public TypeFacade() {
-        super(Type.class);
+    public UserFacade() {
+        super(User.class);
     }
     
 }

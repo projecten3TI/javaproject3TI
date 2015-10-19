@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scoretracker.beans.entity;
+package scoretracker.beans.persistence;
 
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,13 +26,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jamie
  */
 @Entity
-@Table(name = "type")
+@Table(name = "class")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Type.findAll", query = "SELECT t FROM Type t"),
-    @NamedQuery(name = "Type.findById", query = "SELECT t FROM Type t WHERE t.id = :id"),
-    @NamedQuery(name = "Type.findByName", query = "SELECT t FROM Type t WHERE t.name = :name")})
-public class Type implements Serializable {
+    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
+    @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
+    @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
+public class Class implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,17 +42,15 @@ public class Type implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "description")
-    private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "classId", fetch = FetchType.EAGER)
+    private Collection<Test> testCollection;
+    @OneToMany(mappedBy = "classId", fetch = FetchType.EAGER)
     private Collection<User> userCollection;
 
-    public Type() {
+    public Class() {
     }
 
-    public Type(Integer id) {
+    public Class(Integer id) {
         this.id = id;
     }
 
@@ -74,12 +70,13 @@ public class Type implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    @XmlTransient
+    public Collection<Test> getTestCollection() {
+        return testCollection;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTestCollection(Collection<Test> testCollection) {
+        this.testCollection = testCollection;
     }
 
     @XmlTransient
@@ -101,10 +98,10 @@ public class Type implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Type)) {
+        if (!(object instanceof Class)) {
             return false;
         }
-        Type other = (Type) object;
+        Class other = (Class) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +110,7 @@ public class Type implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.entity.Type[ id=" + id + " ]";
+        return "scoretracker.beans.entity.Class[ id=" + id + " ]";
     }
     
 }
