@@ -6,7 +6,9 @@
 package scoretracker.beans.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,10 +18,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByClassId", query = "SELECT u FROM User u WHERE u.classId = :classId"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
     @NamedQuery(name = "User.findByRNr", query = "SELECT u FROM User u WHERE u.rNr = :rNr"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
@@ -42,8 +45,6 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Column(name = "classId")
-    private Integer classId;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
@@ -60,6 +61,13 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    private Collection<Teststudent> teststudentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
+    private Collection<Course> courseCollection;
+    @JoinColumn(name = "classId", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Class classId;
     @JoinColumn(name = "typeId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Type typeId;
@@ -82,14 +90,6 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Integer classId) {
-        this.classId = classId;
     }
 
     public String getName() {
@@ -122,6 +122,32 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @XmlTransient
+    public Collection<Teststudent> getTeststudentCollection() {
+        return teststudentCollection;
+    }
+
+    public void setTeststudentCollection(Collection<Teststudent> teststudentCollection) {
+        this.teststudentCollection = teststudentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Course> getCourseCollection() {
+        return courseCollection;
+    }
+
+    public void setCourseCollection(Collection<Course> courseCollection) {
+        this.courseCollection = courseCollection;
+    }
+
+    public Class getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Class classId) {
+        this.classId = classId;
     }
 
     public Type getTypeId() {
