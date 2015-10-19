@@ -5,11 +5,7 @@
  */
 package scoretracker.servlets;
 
-import static com.sun.xml.internal.ws.api.message.Packet.Status.Response;
 import java.io.IOException;
-import java.io.PrintWriter;
-import javax.jms.Session;
-import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
