@@ -6,6 +6,7 @@
         <meta charset="utf-8"/>
         <title>Java Groep 7</title>
         <!-- CSS LINKS -->
+        <link rel="stylesheet" href="CSS/bootstrap.css"/>
         <link rel="stylesheet" href="CSS/main.css"/>
         <link rel="stylesheet" href="CSS/font-awesome.css"/>
         <!-- END CSS LINKS -->
@@ -18,68 +19,25 @@
         <!-- END JS IMPORT -->
     </h:head>
     <h:body>
+        
         <header>
             <a href="#" class="logo">
                 <em>Score</em><strong>tracker</strong>
             </a>
             <nav>
                 <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Upload Excel</a></li>
+                    <li><a href="#">Bekijk Punten</a></li>
+                    <li><a href="#">Manage</a></li>
                 </ul>      
             </nav>
         </header>
-        <section>
-            <h1>Welcome to <em>Scoretracker</em></h1>
-            <form class="login">
-
-                <fieldset>
-
-                    <legend class="legend">Login</legend>
-
-                    <div class="input">
-                        <input type="email" placeholder="Email" required="true" />
-                        <span><i class="fa fa-envelope-o"></i></span>
-                    </div>
-
-                    <div class="input">
-                        <input type="password" placeholder="Password" required="true" />
-                        <span><i class="fa fa-lock"></i></span>
-                    </div>
-
-                    <button type="submit" class="submit"><i class="fa fa-long-arrow-right"></i></button>
-
-                </fieldset>
-
-                <div class="feedback">
-                    login successful <br />
-                    redirecting...
-                </div>
-
-            </form>
-        </section>
-        <script>
-            $(document).ready(function () {
-                $(".input").focusin(function () {
-                    $(this).find("span").animate({"opacity": "0"}, 200);
-                });
-
-                $(".input").focusout(function () {
-                    $(this).find("span").animate({"opacity": "1"}, 300);
-                });
-
-                $(".login").submit(function () {
-                    $(this).find(".submit i").removeAttr('class').addClass("fa fa-check").css({"color": "#fff"});
-                    $(".submit").css({"background": "#2ecc71", "border-color": "#2ecc71"});
-                    $(".feedback").show().animate({"opacity": "1", "bottom": "-80px"}, 400);
-                    $("input").css({"border-color": "#2ecc71"});
-                    return false;
-                });
-            });
-
-        </script>
+      <div class="container">
+          <ul class="subnav">
+              <li><a href="#">Per test</a></li>
+              <li><a href="#">Per student</a></li>
+          </ul>
+            </div>
     </h:body>
 </html>
 
