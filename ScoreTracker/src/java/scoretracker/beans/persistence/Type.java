@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -48,7 +47,7 @@ public class Type implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
     private Collection<User> userCollection;
 
     public Type() {
@@ -113,7 +112,7 @@ public class Type implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.entity.Type[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Type[ id=" + id + " ]";
     }
     
 }

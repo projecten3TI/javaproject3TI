@@ -11,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -61,15 +60,15 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userId")
     private Collection<Teststudent> teststudentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Collection<Course> courseCollection;
     @JoinColumn(name = "classId", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Class classId;
     @JoinColumn(name = "typeId", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Type typeId;
 
     public User() {
@@ -180,7 +179,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.entity.User[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.User[ id=" + id + " ]";
     }
     
 }

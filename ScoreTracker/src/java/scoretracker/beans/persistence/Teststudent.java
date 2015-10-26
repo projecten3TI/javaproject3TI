@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,10 +39,10 @@ public class Teststudent implements Serializable {
     @Column(name = "score")
     private Integer score;
     @JoinColumn(name = "testId", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Test testId;
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User userId;
 
     public Teststudent() {
@@ -107,7 +106,7 @@ public class Teststudent implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.entity.Teststudent[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Teststudent[ id=" + id + " ]";
     }
     
 }
