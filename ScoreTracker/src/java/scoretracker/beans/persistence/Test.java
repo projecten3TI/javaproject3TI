@@ -61,6 +61,7 @@ public class Test implements Serializable {
     private Collection<Teststudent> teststudentCollection;
 
     public Test() {
+        this.id = 0;
     }
 
     public Test(Integer id) {

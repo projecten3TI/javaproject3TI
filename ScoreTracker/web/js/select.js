@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-$('#example').DataTable();
+
 
 $(".custom-select").each(function () {
                     var classes = $(this).attr("class"),

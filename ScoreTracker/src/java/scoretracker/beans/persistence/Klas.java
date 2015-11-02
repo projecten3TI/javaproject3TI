@@ -49,6 +49,7 @@ public class Klas implements Serializable {
     private Collection<User> userCollection;
 
     public Klas() {
+        this.id = 0;
     }
 
     public Klas(Integer id) {

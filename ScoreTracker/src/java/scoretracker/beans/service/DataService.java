@@ -63,10 +63,46 @@ public class DataService {
         return tests;
     }
     
-    public List<Teststudent> getTeststudents(){
-        Query q = em.createQuery("Select ts from Teststudent ts");
-        List<Teststudent> teststudents = q.getResultList();
-        return teststudents;
+    public List<Teststudent> getTeststudents(int klasId, int courseId, int testId){
+        
+        String query = "Select ts from Teststudent ts";
+        Query q = em.createQuery(query);
+        Boolean first = false;
+        if (klasId != 0 || courseId != 0 || testId != 0){
+            query += " WHERE ";
+            if (klasId != 0){
+                query += "ts.testId IN (SELECT t FROM Test t WHERE t.klasId.id = :klasId)";
+                first = true;
+            }
+            if (courseId != 0){
+                if (first){
+                    query += " AND ";
+                } else {
+                    first = true;
+                }
+                query += "ts.testId IN (SELECT t FROM Test t WHERE t.courseId.id = :courseId)";       
+            }
+            if (testId != 0){
+                if (first){
+                    query += " AND ";
+                }
+                query += "ts.testId IN (SELECT t from Test t WHERE t.id = :testId)";     
+            }
+            q = em.createQuery(query);
+            if (klasId != 0){
+                q.setParameter("klasId", klasId);
+            }
+            if (courseId != 0){
+                q.setParameter("courseId", courseId);
+            }
+            if (testId != 0){
+                q.setParameter("testId", testId);
+            }
+        } else {
+            q = em.createQuery(query);
+            
+        } 
+        return q.getResultList();
     }
     
     public User getUserFromTeststudents(int userId){

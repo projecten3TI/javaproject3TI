@@ -52,6 +52,7 @@ public class Course implements Serializable {
     private User userId;
 
     public Course() {
+        this.id = 0;
     }
 
     public Course(Integer id) {
