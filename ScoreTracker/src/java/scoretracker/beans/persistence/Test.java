@@ -10,6 +10,7 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -50,13 +51,13 @@ public class Test implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "classId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Class classId;
+    @JoinColumn(name = "klasId", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Klas klasId;
     @JoinColumn(name = "courseId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Course courseId;
-    @OneToMany(mappedBy = "testId")
+    @OneToMany(mappedBy = "testId", fetch = FetchType.EAGER)
     private Collection<Teststudent> teststudentCollection;
 
     public Test() {
@@ -96,12 +97,12 @@ public class Test implements Serializable {
         this.name = name;
     }
 
-    public Class getClassId() {
-        return classId;
+    public Klas getKlasId() {
+        return klasId;
     }
 
-    public void setClassId(Class classId) {
-        this.classId = classId;
+    public void setKlasId(Klas klasId) {
+        this.klasId = klasId;
     }
 
     public Course getCourseId() {
@@ -143,6 +144,7 @@ public class Test implements Serializable {
 
     @Override
     public String toString() {
-        return this.name;
+        return "scoretracker.beans.persistence.Test[ id=" + id + " ]";
     }
+    
 }

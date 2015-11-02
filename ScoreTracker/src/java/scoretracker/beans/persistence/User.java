@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -60,15 +61,15 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
     private Collection<Teststudent> teststudentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
     private Collection<Course> courseCollection;
-    @JoinColumn(name = "classId", referencedColumnName = "id")
-    @ManyToOne
-    private Class classId;
+    @JoinColumn(name = "klasId", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Klas klasId;
     @JoinColumn(name = "typeId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Type typeId;
 
     public User() {
@@ -141,12 +142,12 @@ public class User implements Serializable {
         this.courseCollection = courseCollection;
     }
 
-    public Class getClassId() {
-        return classId;
+    public Klas getKlasId() {
+        return klasId;
     }
 
-    public void setClassId(Class classId) {
-        this.classId = classId;
+    public void setKlasId(Klas klasId) {
+        this.klasId = klasId;
     }
 
     public Type getTypeId() {

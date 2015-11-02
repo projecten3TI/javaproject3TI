@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -44,10 +45,10 @@ public class Course implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId", fetch = FetchType.EAGER)
     private Collection<Test> testCollection;
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User userId;
 
     public Course() {
@@ -112,7 +113,7 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return this.name;
+        return "scoretracker.beans.persistence.Course[ id=" + id + " ]";
     }
     
 }

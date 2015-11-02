@@ -10,7 +10,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import scoretracker.beans.persistence.Course;
+import scoretracker.beans.persistence.Klas;
 import scoretracker.beans.persistence.Test;
+import scoretracker.beans.persistence.Teststudent;
+import scoretracker.beans.persistence.User;
 import scoretracker.beans.service.DataService;
 
 /**
@@ -24,15 +27,29 @@ public class DataBean {
     @EJB
     private DataService service;
     
+    private int klasId;
+    
     public DataBean(){
     }
     
-    public List<Class> getClasses(){
-        return service.getClasses();
+    public int getKlasId() {
+        return klasId;
+    }
+
+    public void setKlasId(int klasId) {
+        this.klasId = klasId;
     }
     
-    public Class getClasss(){
-        return service.getClass();
+    public void runSubmit() {
+        System.out.println("Submit executed");
+    }
+    
+    public List<Klas> getKlasses(){
+        return service.getKlasses();
+    }
+    
+    public Klas getKlas(int id){
+        return service.getKlas(id);
     }
     
     public Course getCourse(int id){
@@ -43,7 +60,19 @@ public class DataBean {
         return service.getCourses();
     }
     
+    public String getKlasTests(){
+        return service.getKlasTest(klasId);
+    }
+    
     public List<Test> getTests(){
         return service.getTests();
+    }
+   
+    public List<Teststudent> getTeststudents(){
+        return service.getTeststudents();
+    }
+    
+    public User getUsersFromTeststudents(int userId){
+        return service.getUserFromTeststudents(userId);   
     }
 }

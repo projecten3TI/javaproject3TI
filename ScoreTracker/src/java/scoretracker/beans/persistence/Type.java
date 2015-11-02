@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -47,7 +48,7 @@ public class Type implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId", fetch = FetchType.EAGER)
     private Collection<User> userCollection;
 
     public Type() {

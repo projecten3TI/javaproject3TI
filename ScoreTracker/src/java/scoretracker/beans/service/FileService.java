@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package scoretracker.beans.service;
-
-import scoretracker.beans.persistence.Class;
 import scoretracker.beans.persistence.Course;
 import scoretracker.beans.persistence.User;
 import scoretracker.beans.persistence.Test;
