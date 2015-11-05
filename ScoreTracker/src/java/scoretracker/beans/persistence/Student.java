@@ -6,7 +6,7 @@
 package scoretracker.beans.persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,61 +27,65 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jamie
+ * @author John
  */
 @Entity
-@Table(name = "user")
+@Table(name = "student")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
-    @NamedQuery(name = "User.findByRNr", query = "SELECT u FROM User u WHERE u.rNr = :rNr"),
-    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
-public class User implements Serializable {
+    @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
+    @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id"),
+    @NamedQuery(name = "Student.findByPrename", query = "SELECT s FROM Student s WHERE s.prename = :prename"),
+    @NamedQuery(name = "Student.findByName", query = "SELECT s FROM Student s WHERE s.name = :name"),
+    @NamedQuery(name = "Student.findByRNr", query = "SELECT s FROM Student s WHERE s.rNr = :rNr")})
+public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "prename")
+    private String prename;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 8)
     @Column(name = "rNr")
     private String rNr;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "email")
-    private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "password")
-    private String password;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
-    private Collection<Teststudent> teststudentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
-    private Collection<Course> courseCollection;
-    @JoinColumn(name = "klasId", referencedColumnName = "id")
+    @Lob
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "email")
+    private String email;
+    @JoinColumn(name = "classId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Klas klasId;
-    @JoinColumn(name = "typeId", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Type typeId;
+    private Class classId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId", fetch = FetchType.EAGER)
+    private List<Teststudent> teststudentList;
 
-    public User() {
+    public Student() {
     }
 
-    public User(Integer id) {
+    public Student(Integer id) {
         this.id = id;
     }
 
-    public User(Integer id, String password) {
+    public Student(Integer id, String prename, String name, String rNr, String email) {
         this.id = id;
-        this.password = password;
+        this.prename = prename;
+        this.name = name;
+        this.rNr = rNr;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -90,6 +94,14 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPrename() {
+        return prename;
+    }
+
+    public void setPrename(String prename) {
+        this.prename = prename;
     }
 
     public String getName() {
@@ -116,46 +128,21 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Class getClassId() {
+        return classId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @XmlTransient
-    public Collection<Teststudent> getTeststudentCollection() {
-        return teststudentCollection;
-    }
-
-    public void setTeststudentCollection(Collection<Teststudent> teststudentCollection) {
-        this.teststudentCollection = teststudentCollection;
+    public void setClassId(Class classId) {
+        this.classId = classId;
     }
 
     @XmlTransient
-    public Collection<Course> getCourseCollection() {
-        return courseCollection;
+    public List<Teststudent> getTeststudentList() {
+        return teststudentList;
     }
 
-    public void setCourseCollection(Collection<Course> courseCollection) {
-        this.courseCollection = courseCollection;
-    }
-
-    public Klas getKlasId() {
-        return klasId;
-    }
-
-    public void setKlasId(Klas klasId) {
-        this.klasId = klasId;
-    }
-
-    public Type getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Type typeId) {
-        this.typeId = typeId;
+    public void setTeststudentList(List<Teststudent> teststudentList) {
+        this.teststudentList = teststudentList;
     }
 
     @Override
@@ -168,10 +155,10 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+        if (!(object instanceof Student)) {
             return false;
         }
-        User other = (User) object;
+        Student other = (Student) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -180,7 +167,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.persistence.User[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Student[ id=" + id + " ]";
     }
     
 }

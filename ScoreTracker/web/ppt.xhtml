@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>
+        <ui:composition template='master.xhtml'>
+            <ui:define name='content'>
+                <h:form prependId="false" id="allData">
+            <h:outputLabel value="Class: "/>
+            <br/>
+            <h:selectOneMenu id="klasId" value="#{dataBean.clas.id}">
+                <f:validateRequired />	
+
+                <f:selectItem itemLabel="Select a class" itemValue="0"></f:selectItem>
+
+                <f:selectItems value="#{dataBean.classses}" var="klas" itemValue="#{klas.id}" itemLabel="#{klas.name}" />
+                <f:ajax listener="#{dataBean.listener}" render="allData" onevent="function(data) {if (data.status == 'success'){$('#tableData').DataTable()}}"/>
+
+            </h:selectOneMenu>
+            <br/>
+
+            <h:outputLabel value="Course:"/>
+            <br/>
+            <h:selectOneMenu id="courseId" value="#{dataBean.course.id}">
+                <f:validateRequired />	
+
+                <f:selectItem itemLabel="Select a course" itemValue="0"></f:selectItem>
+
+                <f:selectItems value="#{dataBean.courses}" var="course" itemValue="#{course.id}" itemLabel="#{course.name}" />
+                <f:ajax  listener="#{dataBean.listener}" render="allData" onevent="function(data) {if (data.status == 'success'){$('#tableData').DataTable()}}"/>
+
+            </h:selectOneMenu>
+            <br/>
+            <h:outputLabel value="Test: "/>
+            <br/>
+            <h:selectOneMenu id="testId" value="#{dataBean.test.id}">
+                <f:validateRequired />	
+
+                <f:selectItem itemLabel="Select a test" itemValue="0"></f:selectItem>
+                
+                <f:selectItems  value="#{dataBean.tests}" var="test" itemValue="#{test.id}" itemLabel="#{test.name}" />
+                <f:ajax  listener="#{dataBean.listener}" render="allData" onevent="function(data) {if (data.status == 'success'){$('#tableData').DataTable()}}"/>
+            </h:selectOneMenu>
+        
+
+        <br/>
+        <h:outputLabel value="#{insertBean.succesMessage}" rendered="#{insertBean.succesMessage != null}"/>
+            <!-- Table -->
+            <c:if test="#{dataBean.dataPPT.size() eq 0}">
+                <div class="alert alert-danger" role="alert"><b>Nothing found with the following parameters</b> <br/> Class: #{dataBean.clas.name} <br/> Course: #{dataBean.course.name}<br/> Test: #{dataBean.test.name} </div>
+            </c:if>
+            <c:if test="#{dataBean.dataPPT.size() gt 0}">
+                <h:dataTable  class="table table-striped table-bordered" id="tableData" value="#{dataBean.dataPPT}" var="item" width="100%" cellspacing="0">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Test name"/>
+                        </f:facet>
+                        <h:outputText value="#{item.testId.name}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Course name"/>
+                        </f:facet>
+                        <h:outputText value="#{item.testId.courseId.name}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="R-Number"/>
+                        </f:facet>
+                        <h:outputText value="#{item.studentId.RNr}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Score"/>
+                        </f:facet>
+                        <h:outputText value="#{item.score}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Max score"/>
+                        </f:facet>
+                        <h:outputText value="#{item.testId.maxScore}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Class"/>
+                        </f:facet>
+                        <h:outputText value="#{item.testId.classId.name}"/>
+                    </h:column>
+                </h:dataTable>
+            </c:if>
+            </h:form>
+                <script>
+                    $(document).ready(function(){
+                       $('#tableData').DataTable(); 
+                    });
+                </script>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

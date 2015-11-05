@@ -3,103 +3,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
         <ui:composition template='master.xhtml'>
             <ui:define name='content'>
-                <h:form prependId="false">
-            <h:outputLabel value="Class: "/>
-            <br/>
-            <h:selectOneMenu id="klasId" value="#{dataBean.klas.id}">
-                <f:validateRequired />	
-
-                <f:selectItem itemLabel="Select a class" itemValue="0"></f:selectItem>
-
-                <f:selectItems value="#{dataBean.klasses}" var="klas" itemValue="#{klas.id}" itemLabel="#{klas.name}" />
-                <f:ajax listener="#{dataBean.listener}" render="allData"/>
-
-            </h:selectOneMenu>
-            <br/>
-
-            <h:outputLabel value="Course:"/>
-            <br/>
-            <h:selectOneMenu id="courseId" value="#{dataBean.course.id}">
-                <f:validateRequired />	
-
-                <f:selectItem itemLabel="Select a course" itemValue="0"></f:selectItem>
-
-                <f:selectItems value="#{dataBean.courses}" var="course" itemValue="#{course.id}" itemLabel="#{course.name}" />
-                <f:ajax  listener="#{dataBean.listener}" render="allData"/>
-
-            </h:selectOneMenu>
-            <br/>
-            <h:outputLabel value="Test: "/>
-            <br/>
-            <h:selectOneMenu id="testId" value="#{dataBean.test.id}">
-                <f:validateRequired />	
-
-                <f:selectItem itemLabel="Select a test" itemValue="0"></f:selectItem>
-                
-                <f:selectItems  value="#{dataBean.tests}" var="test" itemValue="#{test.id}" itemLabel="#{test.name}" />
-                <f:ajax  listener="#{dataBean.listener}" render="allData" />
-            </h:selectOneMenu>
-        
-
-        <br/>
-        <h:outputLabel value="#{insertBean.succesMessage}" rendered="#{insertBean.succesMessage != null}"/>
-        
-        
-        
-        
-            <div class="btn-group btn-group-lg " role="group" aria-label="...">
-                <button type="button" class="btn btn-default">Per test</button>
-                <button type="button" class="btn btn-default">Per student</button>
-            </div>
-
-
-            <!-- Table -->
-            <div>
-                <h:dataTable class="table table-striped table-bordered" id="allData" value="#{dataBean.data}" var="item" width="100%" cellspacing="0">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Test name"/>
-                        </f:facet>
-                        <h:outputText value="#{item.testId.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Course name"/>
-                        </f:facet>
-                        <h:outputText value="#{item.testId.courseId.name}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="R-Number"/>
-                        </f:facet>
-                        <h:outputText value="#{item.userId.RNr}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Score"/>
-                        </f:facet>
-                        <h:outputText value="#{item.score}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Max score"/>
-                        </f:facet>
-                        <h:outputText value="#{item.testId.maxScore}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Class"/>
-                        </f:facet>
-                        <h:outputText value="#{item.userId.klasId.name}"/>
-                    </h:column>
-                    
-                </h:dataTable>
-            </div>
-            </h:form>
+                <!-- Table -->
+                #{dataBean.setCourses()}
+                <table id='tableData' width='100%' cellspacing='0' class='table table-striped table-bordered'>
+                    <thead>
+                        <th>Student name</th>
+                        <th>Student prename</th>
+                        <th>Student R-Number</th>
+                        <ui:repeat value='#{dataBean.allCourses}' var='course'>
+                            <th>#{course.name}</th>
+                        </ui:repeat>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value='#{dataBean.dataPPS}' var='student'>
+                            <tr>
+                            <td><h:outputText value='#{student.name}'/></td>
+                            <td><h:outputText value='#{student.prename}'/></td>
+                            <td><h:outputText value='#{student.RNr}'/></td>
+                            <ui:repeat value='#{dataBean.allCourses}' var='course'>
+                                <td>
+                                    <h:outputText value="#{dataBean.studentFollowsCourse(student,course) ? dataBean.getTotalCourse(student, course) : 'Doesnt follow'}"/>
+                                </td>
+                            </ui:repeat>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+                <script>
+                    $('#tableData').DataTable();
+                </script>
             </ui:define>
         </ui:composition>
     </h:body>

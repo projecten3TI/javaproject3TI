@@ -9,25 +9,25 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import scoretracker.beans.persistence.Klas;
+import scoretracker.beans.persistence.Class;
 
 /**
  *
  * @author John
  */
 @Stateless
-public class KlasService {
+public class ClassService {
     
     @PersistenceContext
     private EntityManager em;
     
-     public List<Klas> getKlassen() {
-        List<Klas> klassen = em.createNamedQuery("Klas.findAll").getResultList();
+     public List<Class> getClasses() {
+        List<Class> klassen = em.createNamedQuery("Class.findAll").getResultList();
         return klassen;
     }
     
-    public Klas getKlas(int id){
-        Klas klas = (Klas)em.createNamedQuery("Klas.findById").setParameter("id", id).getSingleResult();
+    public Class getClass(int id){
+        Class klas = (Class)em.createNamedQuery("Class.findById").setParameter("id", id).getSingleResult();
         return klas;
     }
 }

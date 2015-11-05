@@ -5,10 +5,9 @@
  */
 package scoretracker.beans.service;
 import scoretracker.beans.persistence.Course;
-import scoretracker.beans.persistence.User;
+import scoretracker.beans.persistence.Student;
 import scoretracker.beans.persistence.Test;
 import scoretracker.beans.persistence.Teststudent;
-import scoretracker.beans.persistence.Type;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.ejb.Stateless;

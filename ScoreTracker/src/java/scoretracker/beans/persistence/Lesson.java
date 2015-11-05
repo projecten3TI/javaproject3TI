@@ -24,40 +24,30 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author John
  */
 @Entity
-@Table(name = "teststudent")
+@Table(name = "lesson")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Teststudent.findAll", query = "SELECT t FROM Teststudent t"),
-    @NamedQuery(name = "Teststudent.findById", query = "SELECT t FROM Teststudent t WHERE t.id = :id"),
-    @NamedQuery(name = "Teststudent.findByScore", query = "SELECT t FROM Teststudent t WHERE t.score = :score")})
-public class Teststudent implements Serializable {
+    @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l"),
+    @NamedQuery(name = "Lesson.findById", query = "SELECT l FROM Lesson l WHERE l.id = :id")})
+public class Lesson implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "score")
-    private int score;
-    @JoinColumn(name = "testId", referencedColumnName = "id")
+    @JoinColumn(name = "classId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Test testId;
-    @JoinColumn(name = "studentId", referencedColumnName = "id")
+    private Class classId;
+    @JoinColumn(name = "courseId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Student studentId;
+    private Course courseId;
 
-    public Teststudent() {
+    public Lesson() {
     }
 
-    public Teststudent(Integer id) {
+    public Lesson(Integer id) {
         this.id = id;
-    }
-
-    public Teststudent(Integer id, int score) {
-        this.id = id;
-        this.score = score;
     }
 
     public Integer getId() {
@@ -68,28 +58,20 @@ public class Teststudent implements Serializable {
         this.id = id;
     }
 
-    public int getScore() {
-        return score;
+    public Class getClassId() {
+        return classId;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setClassId(Class classId) {
+        this.classId = classId;
     }
 
-    public Test getTestId() {
-        return testId;
+    public Course getCourseId() {
+        return courseId;
     }
 
-    public void setTestId(Test testId) {
-        this.testId = testId;
-    }
-
-    public Student getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
+    public void setCourseId(Course courseId) {
+        this.courseId = courseId;
     }
 
     @Override
@@ -102,10 +84,10 @@ public class Teststudent implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Teststudent)) {
+        if (!(object instanceof Lesson)) {
             return false;
         }
-        Teststudent other = (Teststudent) object;
+        Lesson other = (Lesson) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +96,7 @@ public class Teststudent implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.persistence.Teststudent[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Lesson[ id=" + id + " ]";
     }
     
 }

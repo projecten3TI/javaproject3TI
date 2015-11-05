@@ -14,13 +14,13 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import scoretracker.beans.persistence.Course;
-import scoretracker.beans.persistence.Klas;
+import scoretracker.beans.persistence.Class;
 import scoretracker.beans.persistence.Test;
+import scoretracker.beans.persistence.Student;
 import scoretracker.beans.persistence.Teststudent;
-import scoretracker.beans.persistence.User;
 import scoretracker.beans.service.CourseService;
 import scoretracker.beans.service.DataService;
-import scoretracker.beans.service.KlasService;
+import scoretracker.beans.service.ClassService;
 import scoretracker.beans.service.TestService;
 
 /**
@@ -35,7 +35,7 @@ public class DataBean {
     private DataService service;
     
     @EJB
-    private KlasService klasService;
+    private ClassService classService;
 
     @EJB
     private CourseService courseService;
@@ -43,13 +43,19 @@ public class DataBean {
     @EJB
     private TestService testService;
     
-    private Klas klas = new Klas();
+    private Class clas = new Class();
     private Course course = new Course();
     private Test test = new Test();
+    private List<Course> courses = new ArrayList<>();
     
     private String success;
     
+    
+
+    
+    
     public DataBean(){
+       
     }
     
     // Getters & Setters
@@ -62,12 +68,12 @@ public class DataBean {
         this.service = service;
     }
 
-    public KlasService getKlasService() {
-        return klasService;
+    public ClassService getClassService() {
+        return classService;
     }
 
-    public void setKlasService(KlasService klasService) {
-        this.klasService = klasService;
+    public void setClassService(ClassService klasService) {
+        this.classService = klasService;
     }
 
     public CourseService getCourseService() {
@@ -86,12 +92,12 @@ public class DataBean {
         this.testService = testService;
     }
 
-    public Klas getKlas() {
-        return klas;
+    public Class getClas() {
+        return clas;
     }
 
-    public void setKlas(Klas klas) {
-        this.klas = klas;
+    public void setClass(Class klas) {
+        this.clas = klas;
     }
 
     public Course getCourse() {
@@ -118,6 +124,13 @@ public class DataBean {
         this.success = success;
     }
     
+    public List<Course> getAllCourses(){
+        return courses;
+    }
+    
+    public final void setCourses(){
+        this.courses = courseService.getCourses();
+    }
     //End getters & setters
     
     
@@ -126,12 +139,18 @@ public class DataBean {
     
     public void listener(AjaxBehaviorEvent event) {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String courseId = (String) params.get("courseId");
-        String testId = (String) params.get("testId");
-        String klasId = (String) params.get("klasId");
-        course.setId(Integer.parseInt(courseId));
-        klas.setId(Integer.parseInt(klasId));
-        test.setId(Integer.parseInt(testId));
+        int courseId = Integer.parseInt(params.get("courseId"));
+        int testId = Integer.parseInt(params.get("testId"));
+        int klasId = Integer.parseInt(params.get("klasId"));
+        if (courseId != 0){
+            course = courseService.getCourse(courseId);
+        } 
+        if (klasId != 0){
+            clas = classService.getClass(klasId);
+        }
+        if (testId != 0){
+             test = testService.getTest(testId);
+        }
     }
     //End Ajax section
     
@@ -140,12 +159,12 @@ public class DataBean {
         System.out.println("Submit executed");
     }
     
-    public List<Klas> getKlasses(){
-        return service.getKlasses();
+    public List<Class> getClassses(){
+        return service.getClassses();
     }
     
-    public Klas getKlas(int id){
-        return service.getKlas(id);
+    public Class getClass(int id){
+        return service.getClass(id);
     }
     
     public Course getCourse(int id){
@@ -160,11 +179,33 @@ public class DataBean {
         return service.getTests();
     }
     
-    public List<Teststudent> getData(){
-        return service.getTeststudents(klas.getId(),course.getId(),test.getId());
+    //GET POINTS PER STUDENT
+    public List<Teststudent> getDataPPT(){
+        return service.getDataPPT(clas.getId(),course.getId(),test.getId());
     }
     
-    public User getUsersFromTeststudents(int userId){
-        return service.getUserFromTeststudents(userId);   
+    //Getting all data for POINTS PER STUDENT
+     public List<Teststudent> getDataPPSTS(Student student){
+         return service.getDataPPSTS(student);
+     }
+     
+     public List<Course> getDataPPSPC(Student student){
+         return service.getDataPPSPC(student);
+     }
+    
+    public List<Student> getDataPPS(){
+        return service.getDataPPS();
+    }
+    
+     public Boolean studentFollowsCourse(Student student,Course course){
+         return service.studentFollowsCourse(student,course);
+     }
+     
+     public String getTotalCourse(Student student, Course course){
+         return service.getTotalCourse(student,course);
+     }
+    
+    public Student getStudentsFromTeststudents(int userId){
+        return service.getStudentFromTeststudents(userId);   
     }
 }

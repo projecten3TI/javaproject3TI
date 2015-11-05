@@ -6,14 +6,13 @@
 package scoretracker.beans.persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,36 +24,37 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jamie
+ * @author John
  */
 @Entity
-@Table(name = "type")
+@Table(name = "class")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Type.findAll", query = "SELECT t FROM Type t"),
-    @NamedQuery(name = "Type.findById", query = "SELECT t FROM Type t WHERE t.id = :id"),
-    @NamedQuery(name = "Type.findByName", query = "SELECT t FROM Type t WHERE t.name = :name")})
-public class Type implements Serializable {
+    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
+    @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
+    @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
+public class Class implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "description")
-    private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeId", fetch = FetchType.EAGER)
-    private Collection<User> userCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
+    private List<Test> testList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
+    private List<Student> studentList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
+    private List<Lesson> lessonList;
 
-    public Type() {
+    public Class() {
+        this.id = 0;
     }
 
-    public Type(Integer id) {
+    public Class(Integer id) {
         this.id = id;
     }
 
@@ -74,21 +74,31 @@ public class Type implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    @XmlTransient
+    public List<Test> getTestList() {
+        return testList;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTestList(List<Test> testList) {
+        this.testList = testList;
     }
 
     @XmlTransient
-    public Collection<User> getUserCollection() {
-        return userCollection;
+    public List<Student> getStudentList() {
+        return studentList;
     }
 
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
+
+    @XmlTransient
+    public List<Lesson> getLessonList() {
+        return lessonList;
+    }
+
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
     }
 
     @Override
@@ -101,10 +111,10 @@ public class Type implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Type)) {
+        if (!(object instanceof Class)) {
             return false;
         }
-        Type other = (Type) object;
+        Class other = (Class) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +123,7 @@ public class Type implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.persistence.Type[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Class[ id=" + id + " ]";
     }
     
 }

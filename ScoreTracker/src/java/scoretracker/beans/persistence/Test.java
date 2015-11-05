@@ -6,8 +6,9 @@
 package scoretracker.beans.persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jamie
+ * @author John
  */
 @Entity
 @Table(name = "test")
@@ -48,17 +49,17 @@ public class Test implements Serializable {
     private int maxScore;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "klasId", referencedColumnName = "id")
+    @JoinColumn(name = "classId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Klas klasId;
+    private Class classId;
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Course courseId;
-    @OneToMany(mappedBy = "testId", fetch = FetchType.EAGER)
-    private Collection<Teststudent> teststudentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testId", fetch = FetchType.EAGER)
+    private List<Teststudent> teststudentList;
 
     public Test() {
         this.id = 0;
@@ -98,12 +99,12 @@ public class Test implements Serializable {
         this.name = name;
     }
 
-    public Klas getKlasId() {
-        return klasId;
+    public Class getClassId() {
+        return classId;
     }
 
-    public void setKlasId(Klas klasId) {
-        this.klasId = klasId;
+    public void setClassId(Class classId) {
+        this.classId = classId;
     }
 
     public Course getCourseId() {
@@ -115,12 +116,12 @@ public class Test implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Teststudent> getTeststudentCollection() {
-        return teststudentCollection;
+    public List<Teststudent> getTeststudentList() {
+        return teststudentList;
     }
 
-    public void setTeststudentCollection(Collection<Teststudent> teststudentCollection) {
-        this.teststudentCollection = teststudentCollection;
+    public void setTeststudentList(List<Teststudent> teststudentList) {
+        this.teststudentList = teststudentList;
     }
 
     @Override

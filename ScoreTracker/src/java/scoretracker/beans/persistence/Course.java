@@ -6,15 +6,13 @@
 package scoretracker.beans.persistence;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jamie
+ * @author John
  */
 @Entity
 @Table(name = "course")
@@ -42,14 +40,15 @@ public class Course implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId", fetch = FetchType.EAGER)
-    private Collection<Test> testCollection;
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private User userId;
+    private List<Test> testList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "courseId", fetch = FetchType.EAGER)
+    private List<Lesson> lessonList;
 
     public Course() {
         this.id = 0;
@@ -57,6 +56,11 @@ public class Course implements Serializable {
 
     public Course(Integer id) {
         this.id = id;
+    }
+
+    public Course(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -76,20 +80,21 @@ public class Course implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Test> getTestCollection() {
-        return testCollection;
+    public List<Test> getTestList() {
+        return testList;
     }
 
-    public void setTestCollection(Collection<Test> testCollection) {
-        this.testCollection = testCollection;
+    public void setTestList(List<Test> testList) {
+        this.testList = testList;
     }
 
-    public User getUserId() {
-        return userId;
+    @XmlTransient
+    public List<Lesson> getLessonList() {
+        return lessonList;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setLessonList(List<Lesson> lessonList) {
+        this.lessonList = lessonList;
     }
 
     @Override
