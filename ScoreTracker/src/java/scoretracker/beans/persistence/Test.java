@@ -54,7 +54,7 @@ public class Test implements Serializable {
     private String name;
     @JoinColumn(name = "classId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Class classId;
+    private Klas classId;
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Course courseId;
@@ -99,11 +99,11 @@ public class Test implements Serializable {
         this.name = name;
     }
 
-    public Class getClassId() {
+    public Klas getClassId() {
         return classId;
     }
 
-    public void setClassId(Class classId) {
+    public void setClassId(Klas classId) {
         this.classId = classId;
     }
 

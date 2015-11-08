@@ -69,7 +69,7 @@ public class Student implements Serializable {
     private String email;
     @JoinColumn(name = "classId", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Class classId;
+    private Klas classId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId", fetch = FetchType.EAGER)
     private List<Teststudent> teststudentList;
 
@@ -128,11 +128,11 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public Class getClassId() {
+    public Klas getClassId() {
         return classId;
     }
 
-    public void setClassId(Class classId) {
+    public void setClassId(Klas classId) {
         this.classId = classId;
     }
 

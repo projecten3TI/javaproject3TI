@@ -6,34 +6,29 @@
 package scoretracker.beans.persistence;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author John
  */
 @Entity
-@Table(name = "class")
+@Table(name = "klas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
-    @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
-    @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
-public class Class implements Serializable {
+    @NamedQuery(name = "Klas.findAll", query = "SELECT k FROM Klas k"),
+    @NamedQuery(name = "Klas.findById", query = "SELECT k FROM Klas k WHERE k.id = :id"),
+    @NamedQuery(name = "Klas.findByName", query = "SELECT k FROM Klas k WHERE k.name = :name")})
+public class Klas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,18 +38,12 @@ public class Class implements Serializable {
     @Size(max = 50)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
-    private List<Test> testList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
-    private List<Student> studentList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId", fetch = FetchType.EAGER)
-    private List<Lesson> lessonList;
 
-    public Class() {
+    public Klas() {
         this.id = 0;
     }
 
-    public Class(Integer id) {
+    public Klas(Integer id) {
         this.id = id;
     }
 
@@ -74,33 +63,6 @@ public class Class implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public List<Test> getTestList() {
-        return testList;
-    }
-
-    public void setTestList(List<Test> testList) {
-        this.testList = testList;
-    }
-
-    @XmlTransient
-    public List<Student> getStudentList() {
-        return studentList;
-    }
-
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
-
-    @XmlTransient
-    public List<Lesson> getLessonList() {
-        return lessonList;
-    }
-
-    public void setLessonList(List<Lesson> lessonList) {
-        this.lessonList = lessonList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,10 +73,10 @@ public class Class implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Class)) {
+        if (!(object instanceof Klas)) {
             return false;
         }
-        Class other = (Class) object;
+        Klas other = (Klas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -123,7 +85,7 @@ public class Class implements Serializable {
 
     @Override
     public String toString() {
-        return "scoretracker.beans.persistence.Class[ id=" + id + " ]";
+        return "scoretracker.beans.persistence.Klas[ id=" + id + " ]";
     }
     
 }

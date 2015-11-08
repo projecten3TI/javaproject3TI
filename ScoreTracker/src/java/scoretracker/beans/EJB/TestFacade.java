@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scoretracker.beans.service;
+package scoretracker.beans.EJB;
 
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,18 +15,17 @@ import scoretracker.beans.persistence.Test;
  * @author John
  */
 @Stateless
-public class TestService {
-    
-    @PersistenceContext
+public class TestFacade extends AbstractFacade<Test> {
+    @PersistenceContext(unitName = "ScoreTrackerPU")
     private EntityManager em;
-    
-     public List<Test> getTests() {
-        List<Test> tests = em.createNamedQuery("Test.findAll").getResultList();
-        return tests;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+
+    public TestFacade() {
+        super(Test.class);
     }
     
-    public Test getTest(int id){
-        Test test = (Test)em.createNamedQuery("Test.findById").setParameter("id", id).getSingleResult();
-        return test;
-    }
 }

@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scoretracker.beans.service;
+package scoretracker.beans.EJB;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
  *
- * @author Jamie
+ * @author John
  */
 public abstract class AbstractFacade<T> {
     private Class<T> entityClass;
