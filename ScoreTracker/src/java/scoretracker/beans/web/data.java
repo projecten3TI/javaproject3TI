@@ -6,11 +6,11 @@
 package scoretracker.beans.web;
 
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import scoretracker.beans.EJB.CourseFacade;
@@ -31,7 +31,7 @@ import scoretracker.beans.persistence.Teststudent;
  * @author John
  */
 @Named(value = "data")
-@SessionScoped
+@ViewScoped
 public class data implements Serializable {
 
     @EJB

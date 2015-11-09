@@ -6,9 +6,9 @@
 package scoretracker.beans.web;
 
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
 import scoretracker.beans.EJB.CourseFacade;
 import scoretracker.beans.EJB.KlasFacade;
 import scoretracker.beans.EJB.LessonFacade;
@@ -22,7 +22,7 @@ import scoretracker.beans.persistence.Student;
  * @author John
  */
 @Named(value = "CRUD")
-@SessionScoped
+@ViewScoped
 public class CRUD implements Serializable {
 
     @EJB
