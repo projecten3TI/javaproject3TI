@@ -144,7 +144,6 @@ public class DataService {
         } else {
             q = em.createQuery(query);
         }
-        List<Teststudent> fgt = q.getResultList();
         return q.getResultList();
     }
 

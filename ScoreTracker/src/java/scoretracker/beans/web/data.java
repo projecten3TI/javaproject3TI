@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import scoretracker.beans.EJB.CourseFacade;
@@ -31,7 +31,7 @@ import scoretracker.beans.persistence.Teststudent;
  * @author John
  */
 @Named(value = "data")
-@ViewScoped
+@SessionScoped
 public class data implements Serializable {
 
     @EJB
@@ -137,10 +137,6 @@ public class data implements Serializable {
         return testFL.findAll();
     }
     
-    
-    
-    
-    
     //GET POINTS PER STUDENT
     public List<Teststudent> getDataPPT(){
         return service.getDataPPT(clas.getId(),course.getId(),test.getId());
@@ -169,5 +165,10 @@ public class data implements Serializable {
     
      public String getTotalCourseAll(Student student) {
          return service.getTotalCourseAll(student, courseFL.findAll());
+     }
+     
+     public String editScore(Teststudent ts){
+         ts.setEditable(true);
+         return null;
      }
 }

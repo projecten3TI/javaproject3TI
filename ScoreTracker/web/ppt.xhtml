@@ -71,11 +71,13 @@
                         </f:facet>
                         <h:outputText value="#{item.studentId.RNr}"/>
                     </h:column>
-                    <h:column>
+                    <h:column class="editColumn">
                         <f:facet name="header">
                             <h:outputText value="Score"/>
                         </f:facet>
-                        <h:outputText value="#{item.score}"/>
+                        <h:inputText style="float:left;" value="#{item.score}" size="20" rendered="#{item.editable}"/>
+                        <h:outputText value="#{item.score}" rendered="#{not item.editable}"/>
+                        <h:commandLink style="float:right; margin-top:3px;" class="fa fa-fw fa-edit" action="#{data.editScore(item)}" rendered="#{not item.editable}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

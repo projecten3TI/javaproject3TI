@@ -16,6 +16,7 @@ import scoretracker.beans.EJB.StudentFacade;
 import scoretracker.beans.EJB.TestFacade;
 import scoretracker.beans.EJB.TeststudentFacade;
 import scoretracker.beans.persistence.Student;
+import scoretracker.beans.persistence.Test;
 
 /**
  *
@@ -50,5 +51,9 @@ public class CRUD implements Serializable {
     
     public void deleteStudent(Student s){
         this.studentFL.remove(s);
+    }
+    
+    public void makeTest(Test t){
+        this.testFL.create(t);
     }
 }
