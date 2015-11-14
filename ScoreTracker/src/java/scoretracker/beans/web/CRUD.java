@@ -20,6 +20,7 @@ import scoretracker.beans.EJB.TestFacade;
 import scoretracker.beans.EJB.TeststudentFacade;
 import scoretracker.beans.persistence.Student;
 import scoretracker.beans.persistence.Test;
+import scoretracker.beans.persistence.Teststudent;
 
 /**
  *
@@ -71,7 +72,7 @@ public class CRUD implements Serializable {
     }
     
     //Create a PDF for a specific test
-    public void makePdfTest(int id) throws IOException, DocumentException{
-        pdfservice.createPdfTest(id);
+    public void makePdfTest(Teststudent ts) throws IOException, DocumentException{
+        pdfservice.createPdfTest(ts);
     }
 }

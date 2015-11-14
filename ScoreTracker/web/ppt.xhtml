@@ -58,7 +58,7 @@
                                     <h:outputText value="Test name + Test to PDF"/>
                                 </f:facet>
                                 <h:outputText value="#{item.testId.name}  " />
-                                <h:commandLink class="fa fa-fw fa-envelope" action="#{CRUD.makePdfTest(item.testId)}" immediate="true"/>
+                                <h:commandLink class="fa fa-fw fa-envelope" action="#{CRUD.makePdfTest(item)}" immediate="true"/>
 
                             </h:column>
                             <h:column>
