@@ -20,6 +20,7 @@ public class CRUDService {
     @PersistenceContext
     private EntityManager em;
     
+    //Delete a specific student
     public void deleteStudent(Student student){
         Student s = em.find(Student.class, student.getId());
         

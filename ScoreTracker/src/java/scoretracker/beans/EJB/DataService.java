@@ -21,22 +21,24 @@ import scoretracker.beans.persistence.Teststudent;
 @Stateless
 public class DataService {
 
-    //    private String[] messages = {"hello world from EJB !", "Bonjour", "Yolo !"};
     @PersistenceContext
     private EntityManager em;
 
+    //Collect all tests from a specific student
     public List<Teststudent> getDataPPSTS(Student student) {
         Query q = em.createQuery("SELECT ts from Teststudent ts WHERE ts.studentId.id = :studentId");
         q.setParameter("studentId", student.getId());
         return q.getResultList();
     }
 
+    //Collect all courses from a specific student
     public List<Course> getDataPPSPC(Student student) {
         Query q = em.createQuery("SELECT c FROM Course c WHERE c.id IN (SELECT l.courseId.id FROM Lesson l WHERE l.classId.id = :classId)");
         q.setParameter("classId", student.getClassId().getId());
         return q.getResultList();
     }
 
+    //Check if a student follows a specific course
     public Boolean studentFollowsCourse(Student student, Course course) {
         Query q = em.createQuery("SELECT l FROM Lesson l WHERE l.classId.id = :classId AND l.courseId.id = :courseId");
         q.setParameter("classId", student.getClassId().getId());
@@ -49,6 +51,7 @@ public class DataService {
         }
     }
 
+    //Get the total score of each course (in %) for a specific student and course
     public String getTotalCourse(Student student, Course course) {
         Query q = em.createQuery("SELECT (100 * ts.score / 20) FROM Teststudent ts WHERE ts.testId.id IN (SELECT t.id FROM Test t WHERE t.courseId.id = :courseId) AND ts.studentId.id = :studentId");
         q.setParameter("courseId", course.getId());
@@ -69,6 +72,7 @@ public class DataService {
         }
     }
 
+    //Get the total score of each course (in %) for a specific student and all courses
     public String getTotalCourseAll(Student student, List<Course> courses) {
         Integer bigTotal = 0;
         Integer numberOfTests = 0;
@@ -107,6 +111,7 @@ public class DataService {
 
     }
 
+    //Collect all points for a specific test
     public List<Teststudent> getDataPPT(int classId, int courseId, int testId) {
         String query = "SELECT ts from Teststudent ts";
         Query q = em.createQuery(query);
@@ -147,6 +152,7 @@ public class DataService {
         return q.getResultList();
     }
 
+    //Returns a student based on a specific ID
     public Student getStudentFromTeststudents(int userId) {
         Query q = em.createQuery("Select u from Student u WHERE u.id = ?");
         q.setParameter(1, userId);
@@ -154,6 +160,7 @@ public class DataService {
     }
 
     //Ajax Methods
+    //Returns a test based on a specific class
     public String getClassTest(int klasId) {
         String result = "";
         Query q = em.createQuery("SELECT c from Teststudent c WHERE c.userId IN (SELECT u FROM Student u WHERE u.klasId = ?)");
@@ -165,15 +172,4 @@ public class DataService {
 
         return result;
     }
-
-    /*public StudentClasses getCourseTest(){
-        
-     }
-    
-     public StudentClasses getTest(){
-        
-     }*/
-    //End ajax methods
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
 }

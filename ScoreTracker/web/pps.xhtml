@@ -17,7 +17,8 @@
                             <th>#{course.name}</th>
                         </ui:repeat>
                         <th>Total</th>
-                        <th></th>
+                        <th>Delete</th>
+                        <th>PDF</th>
                     </thead>
                     <tbody>
                         <ui:repeat value='#{data.students}' var='student' >
@@ -35,6 +36,9 @@
                             </td>
                             <td>
                                 <h:commandLink class="fa fa-fw fa-trash" action="#{CRUD.deleteStudent(student)}" immediate="true"/>
+                            </td>
+                            <td>
+                                <h:commandLink class="fa fa-fw fa-envelope" action="#{CRUD.makePdfStudent(student)}" immediate="true"/>
                             </td>
                              </tr>
                             
