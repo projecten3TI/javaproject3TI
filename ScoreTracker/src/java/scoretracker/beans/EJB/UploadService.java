@@ -46,28 +46,30 @@ public class UploadService {
         XSSFSheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
         List<Teststudent> studenten = new ArrayList<Teststudent>();
+        Test test = new Test();
         
         
         //Klas ophalen uit Excel
         Row nextRow = iterator.next();
         q = em.createNamedQuery("Klas.findByName");
-        Klas klas = new Klas();
+        List<Klas> klassen = new ArrayList<Klas>();
         q.setParameter("name", nextRow.getCell(1).getStringCellValue());
-        klas = (Klas) q.getSingleResult();
+        klassen = q.getResultList();
         
-         
+        if(klassen.size() != 1){
         //vak ophalen uit Excel
         nextRow = iterator.next();
         q = em.createNamedQuery("Course.findByName");
-        Course course = new Course();
+        List<Course> courses = new ArrayList<Course>();
         q.setParameter("name",nextRow.getCell(1).getStringCellValue());
-        course = (Course) q.getSingleResult();
+        courses = q.getResultList();
         
+        if(courses.size() != 1){
         //Test object aanmaken
-        Test test = new Test();
+        
         nextRow = iterator.next();
-        test.setClassId(klas);
-        test.setCourseId(course);
+        test.setClassId(klassen.get(0));
+        test.setCourseId(courses.get(0));
         test.setName(nextRow.getCell(1).getStringCellValue());
         nextRow = iterator.next();
         Double maxScore = nextRow.getCell(1).getNumericCellValue();
@@ -77,13 +79,14 @@ public class UploadService {
         while(iterator.hasNext())
         {
           nextRow = iterator.next();
-          Student student = new Student();
+          List<Student> students = new ArrayList<Student>();
           q = em.createNamedQuery("Student.findByRNr");
           q.setParameter("rNr",nextRow.getCell(0).getStringCellValue());
-          student = (Student) q.getSingleResult();
+          students = q.getResultList();
           
-          if (student.getId() != null)
+          if (students.size() != 1)
           {
+          Student student = students.get(0);
           Teststudent testStudent = new Teststudent();
           
           testStudent.setTestId(test);
@@ -98,13 +101,22 @@ public class UploadService {
               upload=false;
           }
         }
+        }
+        else
+        {
+            upload = false;
+        }
+        }
+        else
+        {
+            upload = false;
+        }
         
         workbook.close();
         inputStream.close();
         //fouthandeling en toevoegen
         if(upload){
-            if(klas.getId() != null && course.getId() != null)
-            {
+            
                 em.persist(test);
                 for(Teststudent t : studenten) {
                     em.persist(t);
@@ -114,7 +126,7 @@ public class UploadService {
             else{
                 upload=false;
             }
-        }
+    
         return upload;
             
         
