@@ -197,20 +197,17 @@ public class data implements Serializable {
      }
      
      //Allow editing of the scores on the website
-     public String editScore(Teststudent ts){
+     public void editScore(Teststudent ts){
          this.saveButtonShow = true;
          tss.get(tss.indexOf(ts)).setEditable(true);
-         return null;
      }
      
      public void saveAll(){
          for (Teststudent ts : tss){
              Teststudent tsO = teststudentFL.find(ts.getId());
-             if (ts.getScore() != tsO.getScore()){
-             teststudentFL.remove(tsO);
-             teststudentFL.create(ts);
+             if (tsO != tss){ 
+             teststudentFL.edit(ts);
              }
-             
          }
          tss = new ArrayList<>();
      }

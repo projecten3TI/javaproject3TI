@@ -9,6 +9,14 @@
         <ui:composition template='master.xhtml'>
             <ui:define name='content'>
                 <h:form prependId="false" id="allData">
+                    <c:if test="#{empty data.tss}">
+                    #{data.initTSS()}
+                    </c:if>
+                    
+                    <h:commandLink class="saveLink" rendered="#{data.saveButtonShow}" action="#{data.saveAll()}">
+                        <span class="fa fa-2x fa-save"/>
+                        <p>Save changes</p>
+                    </h:commandLink>
                     <h:outputLabel value="Class: "/>
                     <br/>
                     <h:selectOneMenu id="klasId" value="#{data.clas.id}">
@@ -52,14 +60,13 @@
                         <div class="alert alert-danger" role="alert"><b>Nothing found with the following parameters</b> <br/> Class: #{data.clas.name} <br/> Course: #{data.course.name}<br/> Test: #{data.test.name} </div>
                     </c:if>
                     <c:if test="#{data.dataPPT.size() gt 0}">
-                        <h:dataTable  class="table table-striped table-bordered" id="tableData" value="#{data.dataPPT}" var="item" width="100%" cellspacing="0">
+                        <h:dataTable  class="table table-striped table-bordered" id="tableData" value="#{data.tss}" var="item" width="100%" cellspacing="0">
                             <h:column>
                                 <f:facet name="header">
                                     <h:outputText value="Test name + Test to PDF"/>
                                 </f:facet>
                                 <h:outputText value="#{item.testId.name}  " />
                                 <h:commandLink class="fa fa-fw fa-envelope" action="#{CRUD.makePdfTest(item)}" immediate="true"/>
-
                             </h:column>
                             <h:column>
                                 <f:facet name="header">
@@ -94,6 +101,7 @@
                                 <h:outputText value="#{item.testId.classId.name}"/>
                             </h:column>
                         </h:dataTable>
+                        
                     </c:if>
                 </h:form>
                 <script>
