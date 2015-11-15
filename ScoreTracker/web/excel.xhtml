@@ -7,10 +7,17 @@
     <h:body>
         <ui:composition template='master.xhtml'>
             <ui:define name='content'>
+                <h1>Excel uploaden</h1>
+                <p> U kan hier uw excel-bestand uploaden. De gegevens zullen toegevoegd worden aan de database indien: </p>
+                <ul>
+                    <li>U een excel-bestand upload.</li>
+                    <li>De klas,het vak en alle studenten bestaan</li>
+                </ul>
                 <h:form id="form" enctype="multipart/form-data">
                     <h:inputFile id="file" value="#{uploadBean.file}"/>
+                    <br/>
                     <h:commandButton value="Upload" action="#{uploadBean.upload}"/>
-                    
+                    <br/>
                     <h:outputText value="#{uploadBean.message}" />
                 </h:form>
             </ui:define>
