@@ -70,7 +70,8 @@ public class UploadService {
         test.setCourseId(course);
         test.setName(nextRow.getCell(1).getStringCellValue());
         nextRow = iterator.next();
-        test.setMaxScore(Integer.parseInt(nextRow.getCell(1).getStringCellValue()));
+        Double maxScore = nextRow.getCell(2).getNumericCellValue();
+        test.setMaxScore(maxScore.intValue());
         
         nextRow = firstSheet.getRow(5);
         while(iterator.hasNext())
@@ -87,7 +88,8 @@ public class UploadService {
           
           testStudent.setTestId(test);
           testStudent.setStudentId(student);
-          testStudent.setScore(Integer.parseInt(nextRow.getCell(2).getStringCellValue()));
+          Double score = nextRow.getCell(2).getNumericCellValue();
+          testStudent.setScore(score.intValue());
           
           studenten.add(testStudent);
           }
