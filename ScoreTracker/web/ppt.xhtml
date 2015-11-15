@@ -11,6 +11,15 @@
                 <h:form prependId="false" id="allData">
             <h:outputLabel value="Class: "/>
             <br/>
+            <c:if test="#{empty data.tss}">
+            #{data.initTSS()}
+            </c:if>
+
+                <h:commandLink class="saveLink" rendered="#{data.saveButtonShow}" action="#{data.saveAll()}">
+                    <span class="fa fa-2x fa-save"/>
+                    <p>Save changes</p>
+                </h:commandLink>
+            
             <h:selectOneMenu id="klasId" value="#{data.clas.id}">
                 <f:validateRequired />	
 
@@ -53,6 +62,7 @@
             </c:if>
             <c:if test="#{data.dataPPT.size() gt 0}">
                 <h:dataTable  class="table table-striped table-bordered" id="tableData" value="#{data.dataPPT}" var="item" width="100%" cellspacing="0">
+                    
                     <h:column>
                         <f:facet name="header">
                             <h:outputText value="Test name"/>
@@ -75,9 +85,9 @@
                         <f:facet name="header">
                             <h:outputText value="Score"/>
                         </f:facet>
-                        <h:inputText style="float:left;" value="#{item.score}" size="20" rendered="#{item.editable}"/>
-                        <h:outputText value="#{item.score}" rendered="#{not item.editable}"/>
-                        <h:commandLink style="float:right; margin-top:3px;" class="fa fa-fw fa-edit" action="#{data.editScore(item)}" rendered="#{not item.editable}"/>
+                        <h:inputText style="float:left;" value="#{item.score}" size="20" rendered="#{data.tss.get(data.tss.indexOf(item)).editable}"/>
+                        <h:outputText value="#{item.score}" rendered="#{not data.tss.get(data.tss.indexOf(item)).editable}"/>
+                        <h:commandLink style="float:right; margin-top:3px;" class="fa fa-fw fa-edit" action="#{data.editScore(item)}" rendered="#{not data.tss.get(data.tss.indexOf(item)).editable}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -93,6 +103,7 @@
                     </h:column>
                 </h:dataTable>
             </c:if>
+            
             </h:form>
                 <script>
                     $(document).ready(function(){
