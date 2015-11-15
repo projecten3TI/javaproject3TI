@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.Part;
@@ -47,12 +48,13 @@ public class UploadService {
     
     @PersistenceContext
     private EntityManager em;
+    private EntityManagerFactory emf;
     
-    public Boolean upload(Part file) throws IOException, NotSupportedException, RollbackException, SystemException, HeuristicMixedException, HeuristicRollbackException{
+    public Boolean upload(Part file) throws IOException{
         Boolean upload = true;
         InputStream inputStream = file.getInputStream();
         Query q;
-        
+        em = emf.createEntityManager();
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
@@ -127,7 +129,8 @@ public class UploadService {
         inputStream.close();
         //fouthandeling en toevoegen
         if(upload){
-                utx.begin();
+                try{
+                    utx.begin();
                 em.persist(test);
                 
                 for(Teststudent t : studenten) {
@@ -135,6 +138,10 @@ public class UploadService {
                     
                 }
                 utx.commit();
+                } catch (Exception e) {
+                    upload = false;
+                }
+                
             }
             else{
                 upload=false;
