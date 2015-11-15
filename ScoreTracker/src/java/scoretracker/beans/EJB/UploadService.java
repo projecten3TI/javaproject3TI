@@ -41,6 +41,7 @@ public class UploadService {
         Boolean upload = true;
         InputStream inputStream = file.getInputStream();
         Query q;
+        em.getTransaction().begin();
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
@@ -117,10 +118,12 @@ public class UploadService {
         if(upload){
             
                 em.persist(test);
+                
                 for(Teststudent t : studenten) {
                     em.persist(t);
+                    
                 }
-                
+                em.getTransaction().commit();
             }
             else{
                 upload=false;
