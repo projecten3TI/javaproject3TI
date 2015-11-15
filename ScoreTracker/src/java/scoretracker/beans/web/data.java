@@ -7,6 +7,7 @@ package scoretracker.beans.web;
 
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -59,6 +60,9 @@ public class data implements Serializable {
     private Course course = new Course();
     private Test test = new Test();
     
+    private List<Teststudent> tss;
+    boolean saveButtonShow = false;
+    
     /**
      * Creates a new instance of data
      */
@@ -87,6 +91,14 @@ public class data implements Serializable {
 
     public void setTest(Test test) {
         this.test = test;
+    }
+
+    public boolean isSaveButtonShow() {
+        return saveButtonShow;
+    }
+
+    public void setSaveButtonShow(boolean saveButtonShow) {
+        this.saveButtonShow = saveButtonShow;
     }
     
     // Ajax Listener
@@ -136,7 +148,19 @@ public class data implements Serializable {
     public List<Test> getTests(){
         return testFL.findAll();
     }
+
+    public List<Teststudent> getTss() {
+        return tss;
+    }
+
+    public void setTss(List<Teststudent> tss) {
+        this.tss = tss;
+    }
     
+    public void initTSS(){
+        this.tss = teststudentFL.findAll();
+    }
+
     //GET POINTS PER STUDENT
     public List<Teststudent> getDataPPT(){
         return service.getDataPPT(clas.getId(),course.getId(),test.getId());
@@ -168,7 +192,20 @@ public class data implements Serializable {
      }
      
      public String editScore(Teststudent ts){
-         ts.setEditable(true);
+         this.saveButtonShow = true;
+         tss.get(tss.indexOf(ts)).setEditable(true);
          return null;
+     }
+     
+     public void saveAll(){
+         for (Teststudent ts : tss){
+             Teststudent tsO = teststudentFL.find(ts.getId());
+             if (ts.getScore() != tsO.getScore()){
+             teststudentFL.remove(tsO);
+             teststudentFL.create(ts);
+             }
+             
+         }
+         tss = new ArrayList<>();
      }
 }
