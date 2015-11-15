@@ -171,26 +171,32 @@ public class data implements Serializable {
          return service.getDataPPSTS(student);
      }
      
+     //Collect all courses from a specific student
      public List<Course> getDataPPSPC(Student student){
          return service.getDataPPSPC(student);
      }
     
+     //Check if a student follows a specific course
      public Boolean studentFollowsCourse(Student student,Course course){
          return service.studentFollowsCourse(student,course);
      }
      
+     //Get the total score of each course (in %) for a specific student and course
      public String getTotalCourse(Student student, Course course){
          return service.getTotalCourse(student,course);
      }
     
+    //Returns a student based on a specific ID
     public Student getStudentsFromTeststudents(int userId){
         return service.getStudentFromTeststudents(userId);   
     }
     
+    //Get the total score of each course (in %) for a specific student and all courses
      public String getTotalCourseAll(Student student) {
          return service.getTotalCourseAll(student, courseFL.findAll());
      }
      
+     //Allow editing of the scores on the website
      public String editScore(Teststudent ts){
          this.saveButtonShow = true;
          tss.get(tss.indexOf(ts)).setEditable(true);

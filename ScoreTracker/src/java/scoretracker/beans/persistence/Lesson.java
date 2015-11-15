@@ -27,7 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "lesson")
 @XmlRootElement
 @NamedQueries({
+    //Collects all lessons
     @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l"),
+    //Collects all lessons with a specific ID
     @NamedQuery(name = "Lesson.findById", query = "SELECT l FROM Lesson l WHERE l.id = :id")})
 public class Lesson implements Serializable {
     private static final long serialVersionUID = 1L;

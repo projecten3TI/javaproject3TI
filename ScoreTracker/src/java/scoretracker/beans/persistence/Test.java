@@ -32,9 +32,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "test")
 @XmlRootElement
 @NamedQueries({
+    //Collects all tests 
     @NamedQuery(name = "Test.findAll", query = "SELECT t FROM Test t"),
+    //Collects all tests with a specific ID
     @NamedQuery(name = "Test.findById", query = "SELECT t FROM Test t WHERE t.id = :id"),
+    //Collects all tests with a specific maximum score
     @NamedQuery(name = "Test.findByMaxScore", query = "SELECT t FROM Test t WHERE t.maxScore = :maxScore"),
+    //Collects all tests with a specific name
     @NamedQuery(name = "Test.findByName", query = "SELECT t FROM Test t WHERE t.name = :name")})
 public class Test implements Serializable {
     private static final long serialVersionUID = 1L;

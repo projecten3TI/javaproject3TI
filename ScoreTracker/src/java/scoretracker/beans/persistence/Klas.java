@@ -25,8 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "klas")
 @XmlRootElement
 @NamedQueries({
+    //Collects all classes
     @NamedQuery(name = "Klas.findAll", query = "SELECT k FROM Klas k"),
+    //Collects all classes with a specific ID
     @NamedQuery(name = "Klas.findById", query = "SELECT k FROM Klas k WHERE k.id = :id"),
+    //Collects all classes with a specific name
     @NamedQuery(name = "Klas.findByName", query = "SELECT k FROM Klas k WHERE k.name = :name")})
 public class Klas implements Serializable {
     private static final long serialVersionUID = 1L;
