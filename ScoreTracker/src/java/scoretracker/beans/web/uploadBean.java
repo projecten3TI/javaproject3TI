@@ -33,7 +33,7 @@ import scoretracker.beans.EJB.UploadService;
 @ManagedBean
 @ViewScoped
 public class uploadBean {
-    private File file;
+    private Part file;
     private String fileContent;
     private String message;
     
@@ -54,7 +54,7 @@ public class uploadBean {
             //message = "Not an Excel File";
             //}
             //else {
-               Boolean upgeload = this.uploadService.upload("C:\\Users\\robin\\Desktop\\3Ti Semester 1\\Applicatieontwikkeling\\Java\\Voorbeeld Test Resultaten.xlsx");
+               Boolean upgeload = this.uploadService.upload(file);
                if (upgeload = false) {
                    message = "Upload Failed";
                }
@@ -67,21 +67,15 @@ public class uploadBean {
         
     }
     
-    public File getFile(){
+    public Part getFile(){
         return file;
     }
     
-    public void setFile(File file){
+    public void setFile(Part file){
         this.file = file;
     }
     
-    public String getFileContent(){
-        return fileContent;
-    }
     
-    public void setFileContent(String fileContent){
-        this.fileContent = fileContent;
-    }
     
     
     public String getMessage(){

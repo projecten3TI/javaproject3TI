@@ -8,10 +8,11 @@ package scoretracker.beans.EJB;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,9 +38,9 @@ public class UploadService {
     @PersistenceContext
     private EntityManager em;
     
-    public Boolean upload(String path) throws IOException{
+    public Boolean upload(Part file) throws IOException{
         Boolean upload = true;
-        FileInputStream inputStream = new FileInputStream(new File(path));
+        InputStream inputStream = file.getInputStream();
         Query q;
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet firstSheet = workbook.getSheetAt(0);
