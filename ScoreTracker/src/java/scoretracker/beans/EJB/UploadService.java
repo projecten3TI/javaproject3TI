@@ -52,7 +52,7 @@ public class UploadService {
         Row nextRow = iterator.next();
         q = em.createNamedQuery("Klas.findByName");
         Klas klas = new Klas();
-        q.setParameter(1, nextRow.getCell(1).getStringCellValue());
+        q.setParameter("name", nextRow.getCell(1).getStringCellValue());
         klas = (Klas) q.getSingleResult();
         
          
@@ -60,7 +60,7 @@ public class UploadService {
         nextRow = iterator.next();
         q = em.createNamedQuery("Course.findByName");
         Course course = new Course();
-        q.setParameter(1,nextRow.getCell(1).getStringCellValue());
+        q.setParameter("name",nextRow.getCell(1).getStringCellValue());
         course = (Course) q.getSingleResult();
         
         //Test object aanmaken
@@ -78,7 +78,7 @@ public class UploadService {
           nextRow = iterator.next();
           Student student = new Student();
           q = em.createNamedQuery("Student.findByRNr");
-          q.setParameter(1,nextRow.getCell(0).getStringCellValue());
+          q.setParameter("rNr",nextRow.getCell(0).getStringCellValue());
           student = (Student) q.getSingleResult();
           
           if (student.getId() != null)
