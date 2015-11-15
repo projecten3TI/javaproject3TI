@@ -70,7 +70,7 @@ public class UploadService {
         test.setCourseId(course);
         test.setName(nextRow.getCell(1).getStringCellValue());
         nextRow = iterator.next();
-        Double maxScore = nextRow.getCell(2).getNumericCellValue();
+        Double maxScore = nextRow.getCell(1).getNumericCellValue();
         test.setMaxScore(maxScore.intValue());
         
         nextRow = firstSheet.getRow(5);
