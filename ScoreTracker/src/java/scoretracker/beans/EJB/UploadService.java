@@ -129,18 +129,15 @@ public class UploadService {
         inputStream.close();
         //fouthandeling en toevoegen
         if(upload){
-                try{
-                    utx.begin();
+                
                 em.persist(test);
                 
                 for(Teststudent t : studenten) {
                     em.persist(t);
                     
                 }
-                utx.commit();
-                } catch (Exception e) {
-                    upload = false;
-                }
+                
+                
                 
             }
             else{
