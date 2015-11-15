@@ -210,5 +210,6 @@ public class data implements Serializable {
              }
          }
          tss = new ArrayList<>();
+         saveButtonShow = false;
      }
 }
