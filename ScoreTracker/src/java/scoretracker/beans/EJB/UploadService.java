@@ -11,12 +11,20 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.Resource;
 
 import javax.ejb.Stateless;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.Part;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,14 +42,17 @@ import scoretracker.beans.persistence.Teststudent;
 @Stateless
 public class UploadService {
     
+    @Resource
+    UserTransaction utx;
+    
     @PersistenceContext
     private EntityManager em;
     
-    public Boolean upload(Part file) throws IOException{
+    public Boolean upload(Part file) throws IOException, NotSupportedException, RollbackException, SystemException, HeuristicMixedException, HeuristicRollbackException{
         Boolean upload = true;
         InputStream inputStream = file.getInputStream();
         Query q;
-        em.getTransaction().begin();
+        
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> iterator = firstSheet.iterator();
@@ -116,14 +127,14 @@ public class UploadService {
         inputStream.close();
         //fouthandeling en toevoegen
         if(upload){
-            
+                utx.begin();
                 em.persist(test);
                 
                 for(Teststudent t : studenten) {
                     em.persist(t);
                     
                 }
-                em.getTransaction().commit();
+                utx.commit();
             }
             else{
                 upload=false;
