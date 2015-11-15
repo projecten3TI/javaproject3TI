@@ -41,19 +41,15 @@ public class uploadBean {
     @EJB
     UploadService uploadService;
     public void upload() throws IOException{
-        //try {
-           // fileContent = new Scanner(file.getInputStream()).useDelimiter("\\A").next();
+        
+           message = "";
+            if(!"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(file.getContentType())){
             
-           // fileContent = file.getPath();
-        //} catch (IOException e){
-            
-        //}
-           // message = "";
-            //if(!"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(file.getContentType())){
-            
-            //message = "Not an Excel File";
-            //}
-            //else {
+            message = "Not an Excel File";
+            }
+            else {
+        
+        
                Boolean upgeload = this.uploadService.upload(file);
                if (upgeload = false) {
                    message = "Upload Failed";
@@ -62,7 +58,7 @@ public class uploadBean {
                {
                    message = "Upload succesful";
                }
-            //}
+            }
             
         
     }
