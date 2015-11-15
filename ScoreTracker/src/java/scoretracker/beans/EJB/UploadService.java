@@ -5,8 +5,7 @@
  */
 package scoretracker.beans.EJB;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class UploadService {
         //Klas ophalen uit Excel
         Row nextRow = iterator.next();
         q = em.createNamedQuery("Klas.findByName");
-        List<Klas> klassen = new ArrayList<Klas>();
+        List<Klas> klassen = new ArrayList<>();
         q.setParameter("name", nextRow.getCell(1).getStringCellValue());
         klassen = q.getResultList();
         
@@ -60,7 +59,7 @@ public class UploadService {
         //vak ophalen uit Excel
         nextRow = iterator.next();
         q = em.createNamedQuery("Course.findByName");
-        List<Course> courses = new ArrayList<Course>();
+        List<Course> courses = new ArrayList<>();
         q.setParameter("name",nextRow.getCell(1).getStringCellValue());
         courses = q.getResultList();
         
@@ -79,7 +78,7 @@ public class UploadService {
         while(iterator.hasNext())
         {
           nextRow = iterator.next();
-          List<Student> students = new ArrayList<Student>();
+          List<Student> students = new ArrayList<>();
           q = em.createNamedQuery("Student.findByRNr");
           q.setParameter("rNr",nextRow.getCell(0).getStringCellValue());
           students = q.getResultList();
